@@ -1,0 +1,71 @@
+contigs_seq = config["contigs"]
+contig_base_name = contigs_seq[:contigs_seq.rfind(".")]
+script_path = os.path.join(config["package_path"], "script/")
+
+rule build_AGG:
+    input:
+        search = "path_extremity_search.csv",
+        ovl_graph = raw_read_base_name + "_splited.gfa",
+        read2asm = "read2asm.paf",
+        asm_graph = config["graph"],
+        tig2tig = contig_base_name + "_filtred.gfa",
+
+    output:
+        "AAG.csv"
+
+    shell:
+        "python -m knot.path_search {input.search} {output} {input.ovl_graph} {input.read2asm} {input.asm_graph} {input.tig2tig}"
+
+rule filter_contigs:
+    input:
+        contigs_seq
+    
+    output:
+        contig_base_name + "_filtred.fasta"
+    
+    shell:
+        "python -m knot.filter_tig {input} {output} -t 1000000"
+
+rule map_contigs:
+    input:
+        contig_base_name + "_filtred.fasta"
+
+    output:
+        contig_base_name + "_filtred.paf"
+    
+    shell:
+        " ".join([config["minimap"]["bin"],
+                  config["minimap"]["map_option"]+config["read_type"],
+                  "{input}", "{input}",
+                  ">", "{output}"
+                ])
+
+rule map_read_contigs:
+    input:
+        asm = contig_base_name + "_filtred.fasta",
+        read = reads_path
+
+    output:
+        "read2asm.paf"
+
+    shell:
+        " ".join([config["minimap"]["bin"],
+                  config["minimap"]["map_option"]+config["read_type"],
+                  "{input.read}", "{input.asm}",
+                  ">", "{output}"
+                ])
+
+rule find_extremity:
+    input:
+        read2asm = "read2asm.paf",
+        asm_graph = config["graph"],
+        tig2tig = contig_base_name + "_filtred.gfa",
+        read2read = raw_read_base_name + "_splited.gfa"
+
+    output:
+        "path_extremity_search.csv"
+
+    shell:
+        "python -m knot.extremity_search {input.asm_graph} {input.tig2tig} {input.read2asm} {input.read2read} {output}"
+
+

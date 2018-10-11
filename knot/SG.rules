@@ -1,0 +1,38 @@
+reads_path = config["input"]
+raw_read_base_name = reads_path[:reads_path.rfind(".")]
+
+rule mapping:
+    input:
+        reads = "{path}.fasta"
+
+    output:
+        mapping = "{path}.paf"
+
+    shell:
+        " ".join([config["minimap"]["bin"],
+                  config["minimap"]["ovl_option"]+config["read_type"],
+                  "{input}", "{input}",
+                  ">", "{output}"
+                ])
+
+rule spliting:
+    input:
+        mapping = "{path}.paf",
+        reads = "{path}.fasta"
+
+    output:
+        splited_read = "{path}_splited.fasta",
+        yacrd = "{path}.yacrd"
+
+    shell:
+        config["yacrd"]["bin"]+" -i {input.mapping} -s {input.reads} -o {output.yacrd}"
+
+rule overlap2stringgraph:
+    input:
+        "{path}.paf"
+    
+    output:
+        "{path}.gfa"
+    
+    shell:
+        "paf2gfa -c -i {input} {output}"

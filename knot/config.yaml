@@ -1,0 +1,9 @@
+out_path: "knot_report"
+
+minimap:
+    bin: "minimap2"
+    ovl_option: "-x ava-"
+    map_option: "-x map-"
+
+yacrd:
+    bin: "yacrd"
