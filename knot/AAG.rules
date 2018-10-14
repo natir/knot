@@ -24,7 +24,7 @@ rule filter_contigs:
         contig_base_name + "_filtred.fasta"
     
     shell:
-        "python -m knot.filter_tig {input} {output} -t 1000000"
+        "python -m knot.filter_tig {input} {output} -t 100000"
 
 rule map_contigs:
     input:
@@ -58,14 +58,12 @@ rule map_read_contigs:
 rule find_extremity:
     input:
         read2asm = "read2asm.paf",
-        asm_graph = config["graph"],
-        tig2tig = contig_base_name + "_filtred.gfa",
         read2read = raw_read_base_name + "_splited.gfa"
 
     output:
         "path_extremity_search.csv"
 
     shell:
-        "python -m knot.extremity_search {input.asm_graph} {input.tig2tig} {input.read2asm} {input.read2read} {output}"
+        "python -m knot.extremity_search {input.read2asm} {input.read2read} {output}"
 
 

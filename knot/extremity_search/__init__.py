@@ -26,21 +26,3 @@ def get_tig2posread(read2tig, valid_read):
 
     return result
 
-def get_ext_ovl(asm_graph, tig2tig):
-    result = set()
-
-    signe2pos = {"+": "begin", "-": "end", "begin": "+", "end": "-"}
-
-    for row in asm_graph:
-        row = row.strip().split('\t')
-        if row[0] == "L":
-            result.add((row[1]+signe2pos[row[2]], row[3]+signe2pos[row[4]])) 
-    
-    for row in tig2tig:
-        row = row.strip().split('\t')
-        if row[0] == "L":
-            result.add((row[1]+signe2pos[row[2]], row[3]+signe2pos[row[4]]))
-
-    return result
-
-
