@@ -43,7 +43,7 @@ rule map_contigs:
 rule map_read_contigs:
     input:
         asm = contig_base_name + "_filtred.fasta",
-        read = reads_path
+        read = raw_read_base_name + "_splited.fasta"
 
     output:
         "read2asm.paf"
