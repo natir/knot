@@ -35,4 +35,4 @@ rule overlap2stringgraph:
         "{path}.gfa"
     
     shell:
-        "paf2gfa -c -i {input} {output}"
+        "fpa -o gfa1 -s -c -i {output} {input}"
