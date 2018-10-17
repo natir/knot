@@ -1,0 +1,39 @@
+import os
+
+out_prefix = config["out_prefix"]
+package_path = os.path.join(os.path.abspath(config["package_path"]), "")
+
+include: os.path.join(package_path, "SG.rules")
+include: os.path.join(package_path, "AAG.rules")
+
+rule contigs_proxy:
+    input:
+        os.path.abspath(config["contigs"])
+    
+    output:
+        out_prefix + "_knot" + os.sep + "contigs.fasta",
+
+    shell:
+        "ln -s {input} {output}"
+
+rule reads_proxy:
+    input:
+        os.path.abspath(config["raw_reads"])
+    
+    output:
+        out_prefix + "_knot" + os.sep + "raw_reads.fasta",
+
+    shell:
+        "ln -s {input} {output}"
+
+rule reads_graph:
+    input:
+        os.path.abspath(config["contigs_graph"])
+    
+    output:
+        out_prefix + "_knot" + os.sep + "contigs_graph.gfa",
+
+    shell:
+        "ln -s {input} {output}"
+        
+        

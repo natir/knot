@@ -1,12 +1,9 @@
-reads_path = config["input"]
-raw_read_base_name = reads_path[:reads_path.rfind(".")]
-
-rule mapping:
+rule self_mapping:
     input:
-        reads = "{path}.fasta"
+        reads = "{path}reads{suffix,.*}.fasta"
 
     output:
-        mapping = "{path}.paf"
+        mapping = "{path}reads{suffix,.*}.paf"
 
     shell:
         " ".join([config["minimap"]["bin"],

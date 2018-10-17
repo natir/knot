@@ -31,10 +31,12 @@ def main(args = None):
     # A B C E G H I J K L M N Q V W X Y Z
     parser.add_argument("-C", "--contigs", required=True,
                         help="fasta file than contains contigs")
-    parser.add_argument("-g", "--graph", required=True,
+    parser.add_argument("-g", "--contigs_graph", required=True,
                         help="contig graph")
-    parser.add_argument("-i", "--input", required=True,
+    parser.add_argument("-r", "--raw-reads", required=True,
                         help="read used for assembly")
+    parser.add_argument("-o", "--output", required=True,
+                        help="output prefix")
     parser.add_argument("--read-type", choices=["pb", "ont"], default="pb",
                         help="type of input read, default pb")
     parser.add_argument("--clean", action="store_true")
@@ -43,15 +45,16 @@ def main(args = None):
     args = vars(args)
 
     package_path = os.path.dirname(__file__) + os.sep
-    snakemake_rule = os.path.join(package_path, "report.rules")
+    snakemake_rule = os.path.join(package_path, "main.rules")
     snakemake_config_path = os.path.join(package_path, "config.yaml")
 
-    call = ["snakemake", "report",
+    call = ["snakemake", args["output"] + "_AAG.csv",
             "--configfile", snakemake_config_path,
             "--config",
-            "input="+args["input"],
-            "graph="+args["graph"],
             "contigs="+args["contigs"],
+            "out_prefix="+args["output"],
+            "raw_reads="+args["raw_reads"],
+            "contigs_graph="+args["contigs_graph"],
             "read_type="+args["read_type"],
             "package_path="+package_path,
             "--snakefile", snakemake_rule
@@ -67,12 +70,12 @@ def main(args = None):
         reader = csv.reader(fakefile, delimiter="\t")
         next(reader)
         for row in reader:
-            if row[0] != args["graph"]: #don't remove input
-                rm_out = subprocess.run(["rm", "-rf", row[0]])
+            rm_out = subprocess.run(["rm", "-rf", row[0]])
         return
 
     call += unknow_arg
     
+    print(" ".join(call))
     out = subprocess.call(call)
 
 if __name__ == "__main__":
