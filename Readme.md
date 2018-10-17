@@ -1,6 +1,6 @@
 # KNOT
 
-KNOT: Knowlwdge Network Overlap exTraction is a tool for the investigation of fragmented long read assemblies.
+KNOT: Knowledge Network Overlap exTraction is a tool for the investigation of fragmented long read assemblies.
 
 Give an assembly and a set of reads to KNOT, it will output an information-rich contig graph in GFA format that tells you about adjacencies between contigs.
 
