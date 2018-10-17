@@ -1,0 +1,48 @@
+digraph snakemake_dag {
+    graph[bgcolor=white, margin=0];
+    node[shape=box, style=rounded, fontname=sans,                 fontsize=10, penwidth=2];
+    edge[penwidth=2, color=grey];
+    // Input
+	5[label = "contigs_graph", color = "#2D882D", style="rounded"];
+	10[label = "reads", color = "#2D882D", style="rounded"];
+	12[label = "contigs", color = "#2D882D", style="rounded"];
+	13[label = "corrected_reads", color = "#2D882D", style="rounded"];
+    
+    // minimap2
+	2[label = "map_read2contigs", color = "#AA3939", style="rounded"];
+	6[label = "map_contigs2contigs", color = "#AA3939", style="rounded"];
+	9[label = "self_mapping", color = "#AA3939", style="rounded"];
+	11[label = "self_mapping", color = "#AA3939", style="rounded"];
+
+    // fap
+	1[label = "overlap2overlapgraph", color = "#AA7539", style="rounded"];
+	3[label = "overlap2overlapgraph", color = "#AA7539", style="rounded"];
+
+    // yacrd
+	7[label = "spliting_reads", color = "#27556C", style="rounded"];
+	
+    // output
+        0[label = "build_AGG", color = "#5D2971", style="rounded"];
+
+    // other
+	4[label = "find_extremity", color = "#FFD300", style="rounded"];
+	8[label = "filter_contigs", color = "#FFD300", style="rounded"];
+	
+        1 -> 0
+	2 -> 0
+	3 -> 0
+	4 -> 0
+	5 -> 0
+	6 -> 1
+	7 -> 2
+	8 -> 2
+	9 -> 3
+	3 -> 4
+	2 -> 4
+	8 -> 6
+	13 -> 9
+	11 -> 7
+	12 -> 8
+	7 -> 9
+	10 -> 11
+}            
