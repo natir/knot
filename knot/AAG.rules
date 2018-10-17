@@ -55,7 +55,7 @@ rule map_read_contigs:
         " ".join([config["minimap"]["bin"],
                   config["minimap"]["map_option"]+config["read_type"],
                   "-t", "{threads}",
-                  "{input.read}", "{input.asm}",
+                  "{input.asm}", "{input.read}",
                   ">", "{output}"
                 ])
 

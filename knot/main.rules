@@ -18,10 +18,10 @@ rule contigs_proxy:
 
 rule reads_proxy:
     input:
-        os.path.abspath(config["raw_reads"])
+        a = os.path.abspath(config["raw_reads"]) if "raw_reads" in config else os.path.abspath(config["correct_reads"])
     
     output:
-        out_prefix + "_knot" + os.sep + "raw_reads.fasta",
+        a = out_prefix + "_knot" + os.sep + "raw_reads.fasta" if "raw_reads" in config else out_prefix + "_knot" + os.sep + "raw_reads_splited.fasta",
 
     shell:
         "ln -s {input} {output}"

@@ -19,10 +19,10 @@ def get_tig2posread(read2tig, valid_read):
 
     reader = csv.reader(read2tig, delimiter="\t")
     for row in reader:
-        if row[5] not in valid_read:
+        if row[0] not in valid_read:
             continue
-        if int(row[8]) - int(row[7]) > 0.7 * int(row[6]):
-            result[row[0]].append((int(row[2]), row[5], row[4]))
+        if int(row[3]) - int(row[2]) > 0.7 * int(row[1]):
+            result[row[5]].append((int(row[7]), row[8], row[4]))
 
     return result
 

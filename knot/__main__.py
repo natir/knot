@@ -4,6 +4,7 @@
 import io
 import os
 import csv
+import sys
 import argparse
 import subprocess
 
@@ -21,19 +22,20 @@ def main(args = None):
 
 
     if args is None:
-        import sys
         args = sys.argv[1:]
 
     parser = MyArgumentParser(prog="KNOT")
 
     # avaible
-    # b e g i j m o q u w x y z
+    # b e g i m o q u w x y z
     # A B C E G H I J K L M N Q V W X Y Z
     parser.add_argument("-C", "--contigs", required=True,
                         help="fasta file than contains contigs")
     parser.add_argument("-g", "--contigs_graph", required=True,
                         help="contig graph")
-    parser.add_argument("-r", "--raw-reads", required=True,
+    parser.add_argument("-i", "--raw-reads",
+                        help="read used for assembly")
+    parser.add_argument("-m", "--correct-reads",
                         help="read used for assembly")
     parser.add_argument("-o", "--output", required=True,
                         help="output prefix")
@@ -48,15 +50,36 @@ def main(args = None):
     snakemake_rule = os.path.join(package_path, "main.rules")
     snakemake_config_path = os.path.join(package_path, "config.yaml")
 
+    go_out = False
+    if args["raw_reads"] is None and args["correct_reads"] is None:
+        print("You need set --raw-reads or --correct-reads\n", file=sys.stderr)
+        go_out = True
+    
+    if args["raw_reads"] is not None and args["correct_reads"] is not None:
+        print("You can't set --raw-reads and --correct-reads at same time\n", file=sys.stderr)
+        go_out = True
+
+    if go_out:
+        parser.print_help()
+        sys.exit(1)
+
+    config = [
+        "contigs="+args["contigs"],
+        "out_prefix="+args["output"],
+        "contigs_graph="+args["contigs_graph"],
+        "read_type="+args["read_type"],
+        "package_path="+package_path
+    ]
+
+    if args["raw_reads"] is not None:
+        config.append("raw_reads="+args["raw_reads"])
+    else:
+        config.append("correct_reads="+args["correct_reads"])
+
     call = ["snakemake", args["output"] + "_AAG.csv",
             "--configfile", snakemake_config_path,
             "--config",
-            "contigs="+args["contigs"],
-            "out_prefix="+args["output"],
-            "raw_reads="+args["raw_reads"],
-            "contigs_graph="+args["contigs_graph"],
-            "read_type="+args["read_type"],
-            "package_path="+package_path,
+            *config,
             "--snakefile", snakemake_rule
             ]
 
