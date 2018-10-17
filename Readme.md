@@ -1,33 +1,55 @@
 # KNOT
 
-KNOT: for Knoledge Network Overlap exTraction is a tool to add information on long read assembly.
+KNOT: Knowlwdge Network Overlap exTraction is a tool for the investigation of fragmented long read assemblies.
 
-![Globale pipeline](images/pipeline.png)
-
-Legend: 
-- input `#2D882D`
-- minimap2 `#AA3939`
-- fpa `#AA7539`
-- yacrd `#27556C`
-- output `#5D2971`
-- pipeline internal tool `#FFD300`
+Give an assembly and a set of reads to KNOT, it will output an information-rich contig graph in GFA format that tells you about adjacencies between contigs.
 
 ## Input
 
-The tool takes as input long reads (corrected or not), assembly graph (in gfa1), and contigs (in fasta)
+1) long reads (corrected or not) FASTQ
+2) assembly graph (in gfa1) produced by an assembler
+3) and contigs (in fasta) from the same assembler
 
 ## Output
 
-A AAG Augmented Assembly Graph describ in publication[^link to publication], AAG are represent as csv like that:
+KNOT outputs an Augmented Assembly Graph (AAG). The AAG is a directed graph where nodes are contigs. An edge is present if two contigs overlap or, if in the original string graph of the reads, 
+there exists a path between extremities of both contigs.
+
+Output format (csv):
 ```
-tig1 extremity, read of extremity of tig1, tig2 extremity, read of extremity of tig2, length of path between this extremity, number of read in path map against contigs 
+tig1 extremity, read of extremity of tig1, tig2 extremity, read of extremity of tig2, length of path between both extremities, number of reads in path mapped against contigs 
 ```
 
-## Instalation and Usage
+This output can be used to manually investigate the result of an assembly.
+Short paths between contigs are likely true adjacencies. Long paths are likely repeat-induced.
 
-### Instalation
+## Usage
 
-#### Installation with conda
+Assume that
+- long reads are stored in `raw_reads.fasta`
+- contigs are stored in `contigs.fasta`
+- contig graph is stored in `contigs.gfa`
+
+Then run KNOT as:
+
+```
+knot -i raw_reads.fasta -C contigs.fasta -g contigs.gfa -o {output prefix}
+```
+
+knot will run a snakemake pipeline and produce `{output prefix}_AAG.csv` see [output section](#output) for more details, and a directory `{output prefix}_knot` where intermediate file are store.
+
+You can use corrected long reads in place of raw_reads with `-m` option.
+
+Full command line usage:
+```
+
+```
+
+In addition, snakemake parameters can be used.
+
+## Installation
+
+### Install with conda
 
 Recommended solution (2 command, 5 minutes)
 
@@ -46,7 +68,7 @@ Unactivate environement :
 source deactivate knot_env
 ```
 
-#### Installation without conda
+### Install without conda
 
 Requirements:
 
@@ -61,29 +83,9 @@ Instruction:
 pip3 install git+https://gitlab.inria.fr/pmarijon/knot.git 
 ```
 
-## Usage
 
-We assume your :
-- long reads are store in `raw_reads.fasta`
-- contigs are store in `contigs.fasta`
-- contgis graph are store in `contigs.gfa`
 
-```
-knot -i raw_reads.fasta -C contigs.fasta -g contigs.gfa -o {output prefix}
-```
-
-knot run a snakemake pipeline and produce `{output prefix}_AAG.csv` see [output section](#output) for more details, and a directory `{output prefix}_knot` where intermediate file are store.
-
-You can use corrected long reads inplace of raw_reads with `-m` option.
-
-Full command line usage:
-```
-
-```
-
-Snakemake parameter can be used !
-
-## Update
+## How to update an already-installed KNOT?
 
 ### Conda installation
 
@@ -102,4 +104,21 @@ conda env create -f conda_env.yml
 pip3 install --upgrade git+https://gitlab.inria.fr/pmarijon/knot.git
 ```
 
-[^link to publication]: Not yet publish 
+
+# Description of the pipeline
+
+![Globale pipeline](images/pipeline.png)
+
+Legend: 
+- input `#2D882D`
+- minimap2 `#AA3939`
+- fpa `#AA7539`
+- yacrd `#27556C`
+- output `#5D2971`
+- pipeline internal tool `#FFD300`
+
+
+
+# Citation
+
+Please cite this Github URL for now, manuscript is in submission.
