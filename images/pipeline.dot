@@ -22,12 +22,14 @@ digraph snakemake_dag {
 	7[label = "spliting_reads", color = "#27556C", style="rounded"];
 	
     // output
-        0[label = "build_AGG", color = "#5D2971", style="rounded"];
+        14[label = "build_AGG", color = "#5D2971", style="rounded"];
 
     // other
 	4[label = "find_extremity", color = "#FFD300", style="rounded"];
 	8[label = "filter_contigs", color = "#FFD300", style="rounded"];
-	
+        0[label = "path_search", color = "#FFD300", style="rounded"];
+
+	0 -> 14
         1 -> 0
 	2 -> 0
 	3 -> 0
