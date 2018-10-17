@@ -28,10 +28,14 @@ rule map_contigs:
 
     output:
         "{prefix}_filtred.paf"
-    
+
+    threads:
+        8
+
     shell:
         " ".join([config["minimap"]["bin"],
                   config["minimap"]["map_option"]+config["read_type"],
+                  "-t", "{threads}",
                   "{input}", "{input}",
                   ">", "{output}"
                 ])
@@ -44,9 +48,13 @@ rule map_read_contigs:
     output:
         "{prefix}read2asm.paf"
 
+    threads:
+        8
+
     shell:
         " ".join([config["minimap"]["bin"],
                   config["minimap"]["map_option"]+config["read_type"],
+                  "-t", "{threads}",
                   "{input.read}", "{input.asm}",
                   ">", "{output}"
                 ])

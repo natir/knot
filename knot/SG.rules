@@ -5,9 +5,13 @@ rule self_mapping:
     output:
         mapping = "{path}reads{suffix,.*}.paf"
 
+    threads:
+        8
+
     shell:
         " ".join([config["minimap"]["bin"],
                   config["minimap"]["ovl_option"]+config["read_type"],
+                  "-t", "{threads}",
                   "{input}", "{input}",
                   ">", "{output}"
                 ])
