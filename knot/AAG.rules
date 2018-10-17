@@ -22,7 +22,7 @@ rule filter_contigs:
     shell:
         "python -m knot.filter_tig {input} {output} -t 100000"
 
-rule map_contigs:
+rule map_contigs2contigs:
     input:
         "{prefix}_filtred.fasta"
 
@@ -40,7 +40,7 @@ rule map_contigs:
                   ">", "{output}"
                 ])
 
-rule map_read_contigs:
+rule map_read2contigs:
     input:
         asm = "{prefix}contigs_filtred.fasta",
         read = "{prefix}raw_reads_splited.fasta"

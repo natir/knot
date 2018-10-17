@@ -6,7 +6,7 @@ package_path = os.path.join(os.path.abspath(config["package_path"]), "")
 include: os.path.join(package_path, "SG.rules")
 include: os.path.join(package_path, "AAG.rules")
 
-rule contigs_proxy:
+rule contigs:
     input:
         os.path.abspath(config["contigs"])
     
@@ -16,7 +16,7 @@ rule contigs_proxy:
     shell:
         "ln -s {input} {output}"
 
-rule reads_proxy:
+rule reads:
     input:
         a = os.path.abspath(config["raw_reads"]) if "raw_reads" in config else os.path.abspath(config["correct_reads"])
     
@@ -26,7 +26,7 @@ rule reads_proxy:
     shell:
         "ln -s {input} {output}"
 
-rule reads_graph:
+rule contigs_graph:
     input:
         os.path.abspath(config["contigs_graph"])
     

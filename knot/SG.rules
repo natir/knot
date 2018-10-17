@@ -16,7 +16,7 @@ rule self_mapping:
                   ">", "{output}"
                 ])
 
-rule spliting:
+rule spliting_reads:
     input:
         mapping = "{path}.paf",
         reads = "{path}.fasta"
@@ -28,7 +28,7 @@ rule spliting:
     shell:
         config["yacrd"]["bin"]+" -i {input.mapping} -s {input.reads} -o {output.yacrd}"
 
-rule overlap2stringgraph:
+rule overlap2overlapgraph:
     input:
         "{path}.paf"
     
