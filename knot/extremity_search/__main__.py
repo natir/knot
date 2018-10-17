@@ -23,7 +23,7 @@ def main(args):
     args = vars(args)
 
     valid_read = get_valid_read(args["read2read"]) # read name
-
+    
     tig2posread = get_tig2posread(args["read2tig"], valid_read) # tig -> (begin, end, name)
     for k in tig2posread:
         tig2posread[k].sort()
@@ -32,11 +32,12 @@ def main(args):
 
     for tig in tig2posread.keys():
         ext = tig+"_begin"
-        print(ext, tig2posread[tig][0][1], tig2posread[tig][0][2], 
+        print(ext, tig2posread[tig][0][2], tig2posread[tig][0][3], 
               sep=",", file=args["output"])
         
         ext = tig+"_end"
-        print(ext, tig2posread[tig][-1][1], tig2posread[tig][-1][2],
+        tig2posread[tig].sort(key=lambda x: x[1])
+        print(ext, tig2posread[tig][-1][2], tig2posread[tig][-1][3],
               sep=",", file=args["output"])
 
 if __name__ == '__main__':
