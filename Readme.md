@@ -51,6 +51,7 @@ source deactivate knot_env
 Requirements:
 
 - python3
+- snakemake >= 5.3
 - [yacrd](https://github.com/natir/yacrd) avaible in bioconda or cargo
 - [fpa](https://github.com/natir/fpa) avaible in bioconda or cargo
 

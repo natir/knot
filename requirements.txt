@@ -1,6 +1,5 @@
-begins==0.9
-biopython==1.72
-decorator==4.3.0
-gfapy==1.0.0
-networkx==2.2
-numpy==1.15.2
+snakemake>=5.3
+begins>=0.9
+biopython>=1.72
+gfapy>=1.0.0
+networkx>=2.2

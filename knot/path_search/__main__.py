@@ -21,13 +21,13 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 
-def main(args = None):
+def main(args=None):
 
     # argument parsing
     if args is None:
         args = sys.argv[1:]
 
-    parser = argparse.ArgumentParser(prog="paf2gfa",
+    parser = argparse.ArgumentParser(prog="knot.path_search",
                                      formatter_class=argparse.
                                      ArgumentDefaultsHelpFormatter)
 

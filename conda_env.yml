@@ -1,0 +1,12 @@
+name: knot_env
+channels:
+ - conda-forge
+ - bioconda
+ - pdrops
+dependencies:
+ - python=3
+ - yacrd
+ - fpa
+ - snakemake
+ - pip:
+   - "git+https://gitlab.inria.fr/pmarijon/knot.git"

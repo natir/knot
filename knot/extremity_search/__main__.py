@@ -5,12 +5,12 @@ import argparse
 
 from knot.extremity_search import *
 
-def main(args):
+def main(args=None):
 
     if args is None:
         args = sys.argv[1:]
     
-    parser = argparse.ArgumentParser(prog="extremity_search")
+    parser = argparse.ArgumentParser(prog="knot.extremity_search")
 
     parser.add_argument("read2tig", type=argparse.FileType('r'),
                         help="read mapped against asm")

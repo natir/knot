@@ -41,7 +41,6 @@ def main(args = None):
                         help="output prefix")
     parser.add_argument("--read-type", choices=["pb", "ont"], default="pb",
                         help="type of input read, default pb")
-    parser.add_argument("--clean", action="store_true")
 
     args, unknow_arg = parser.parse_known_args(args)
     args = vars(args)
@@ -82,19 +81,6 @@ def main(args = None):
             *config,
             "--snakefile", snakemake_rule
             ]
-
-    if args["clean"]:
-        call.append("-S")
-        out = subprocess.run(call, stdout=subprocess.PIPE)
-        
-        fakefile = io.StringIO(str(out.stdout.decode("utf-8")))
-        fakefile.seek(0)
-        
-        reader = csv.reader(fakefile, delimiter="\t")
-        next(reader)
-        for row in reader:
-            rm_out = subprocess.run(["rm", "-rf", row[0]])
-        return
 
     call += unknow_arg
     

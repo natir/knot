@@ -1,0 +1,6 @@
+include *.md
+include knot/*.rules
+include knot/config.yaml
+recursive-include knot/extremity_search *
+recursive-include knot/filter_tig *
+recursive-include knot/path_search *
