@@ -5,6 +5,7 @@ import io
 import os
 import csv
 import sys
+import tempfile
 import argparse
 import subprocess
 
@@ -31,8 +32,8 @@ def main(args = None):
     # A B C E G H I J K L M N Q V W X Y Z
     parser.add_argument("-C", "--contigs", required=True,
                         help="fasta file than contains contigs")
-    parser.add_argument("-g", "--contigs_graph", required=True,
-                        help="contig graph")
+    parser.add_argument("-g", "--contigs_graph",
+                        help="contigs graph")
     parser.add_argument("-i", "--raw-reads",
                         help="read used for assembly")
     parser.add_argument("-m", "--correct-reads",
@@ -45,10 +46,8 @@ def main(args = None):
     args, unknow_arg = parser.parse_known_args(args)
     args = vars(args)
 
-    package_path = os.path.dirname(__file__) + os.sep
-    snakemake_rule = os.path.join(package_path, "main.rules")
-    snakemake_config_path = os.path.join(package_path, "config.yaml")
-
+    # Check parameter
+    ## raw_reads or correct
     go_out = False
     if args["raw_reads"] is None and args["correct_reads"] is None:
         print("You need set --raw-reads or --correct-reads\n", file=sys.stderr)
@@ -61,6 +60,14 @@ def main(args = None):
     if go_out:
         parser.print_help()
         sys.exit(1)
+
+    ## if contig graph isn't set generate empty file
+    if args["contigs_graph"] is None:
+        args["contigs_graph"] = tempfile.NamedTemporaryFile(delete=False).name
+
+    package_path = os.path.dirname(__file__) + os.sep
+    snakemake_rule = os.path.join(package_path, "main.rules")
+    snakemake_config_path = os.path.join(package_path, "config.yaml")
 
     config = [
         "contigs="+args["contigs"],
