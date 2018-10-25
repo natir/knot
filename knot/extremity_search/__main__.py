@@ -31,11 +31,11 @@ def main(args=None):
     print("tig","read","strand_to_tig", sep=",", file=args["output"])
 
     for tig in tig2posread.keys():
-        ext = tig+"_begin"
+        ext = tig[0]+"_begin"
         print(ext, tig2posread[tig][0][2], tig2posread[tig][0][3], 
               sep=",", file=args["output"])
         
-        ext = tig+"_end"
+        ext = tig[0]+"_end"
         tig2posread[tig].sort(key=lambda x: x[1])
         print(ext, tig2posread[tig][-1][2], tig2posread[tig][-1][3],
               sep=",", file=args["output"])

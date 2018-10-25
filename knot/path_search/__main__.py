@@ -46,7 +46,7 @@ def main(args=None):
     
     # get info about contig
     valid_read = extremity_search.get_valid_read(args["ovl_graph"])
-    tig2reads = {tig: {v[2] for v in val} for tig, val in extremity_search.get_tig2posread(args["read2asm"], valid_read).items()}
+    tig2reads = {tig[0]: {v[2] for v in val} for tig, val in extremity_search.get_tig2posread(args["read2asm"], valid_read).items()}
    
 
     # build list of search

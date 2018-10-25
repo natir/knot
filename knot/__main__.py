@@ -21,7 +21,6 @@ class MyArgumentParser(argparse.ArgumentParser):
 
 def main(args = None):
 
-
     if args is None:
         args = sys.argv[1:]
 
@@ -70,11 +69,11 @@ def main(args = None):
     snakemake_config_path = os.path.join(package_path, "config.yaml")
 
     config = [
-        "contigs="+args["contigs"],
-        "out_prefix="+args["output"],
-        "contigs_graph="+args["contigs_graph"],
-        "read_type="+args["read_type"],
-        "package_path="+package_path
+            "contigs="+args["contigs"],
+            "out_prefix="+args["output"],
+            "contigs_graph="+args["contigs_graph"],
+            "read_type="+args["read_type"],
+            "package_path="+package_path,
     ]
 
     if args["raw_reads"] is not None:
