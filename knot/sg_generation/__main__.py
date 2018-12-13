@@ -27,7 +27,7 @@ def main(args=None):
     
     skip_read = set()
     for tig, val in tig2readspos.items():
-        t = max(tig[1]*0.2, 100000)
+        t = max(tig[1]*0.2, 10000)
         for v in val:
             if v[0] > t and v[1] < tig[1] - t:
                 skip_read.add(v[2])

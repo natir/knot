@@ -8,7 +8,7 @@ import networkx as nx
 def get_path(graph, n1, n2):
 
     try:
-        path = nx.shortest_path(graph, n1, n2)
+        path = nx.shortest_path(graph, n1, n2, weight="weight")
     except nx.exception.NetworkXError as e:
         logging.debug("Networkx exception"+str(e))
         path = []
@@ -19,7 +19,7 @@ def get_path(graph, n1, n2):
         logging.debug("Node not found exception "+str(e))
         path = []
    
-    return path
+    return path, sum([graph.edges[x, y]["weight"] for x, y in zip(path, path[1:])]) 
 
 def path_through_contig(tig2reads, path):
     tig2nb_read = Counter()

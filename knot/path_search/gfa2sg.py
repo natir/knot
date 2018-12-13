@@ -62,8 +62,7 @@ def __add_dovetails(d, G, is_contain):
                qual=qual_val,
                len=d.alignment.length_on_query(),
                overhang_len=d.to_segment.length - d.alignment.length_on_query(),
-               overhang_maplen=d.get("om"),
-               weight=1)
+               weight=int(d.to.LN-d.alignment.length_on_query()))
 
 class isContain:
     

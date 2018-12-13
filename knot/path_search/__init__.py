@@ -26,3 +26,34 @@ def __gfa_line_parse(row):
         second_suffix = "_end"
 
     return (row[1]+first_suffix, row[3]+second_suffix)
+
+def choose_read_ori(read, ori, pos, source):
+    """
+    To much magique her:
+    read: read id
+    ori: orientation of read on contig
+    pos: at begin or end of contig
+    source: this read are source of search or not
+    """
+    if source:
+        if pos == "begin":
+            if ori == "+":
+                return read + "-"
+            else:
+                return read + "+"
+        else:
+            if ori == "+":
+                return read + "+"
+            else:
+                return read + "-"
+    else:
+        if pos == "begin":
+            if ori == "+":
+                return read + "+"
+            else:
+                return read + "-"
+        else:
+            if ori == "+":
+                return read + "-"
+            else:
+                return read + "+"

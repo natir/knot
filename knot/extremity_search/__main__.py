@@ -32,12 +32,12 @@ def main(args=None):
 
     for tig in tig2posread.keys():
         ext = tig[0]+"_begin"
-        print(ext, tig2posread[tig][0][2], tig2posread[tig][0][3], 
+        print(ext, tig2posread[tig][1][2], tig2posread[tig][1][3], 
               sep=",", file=args["output"])
         
         ext = tig[0]+"_end"
         tig2posread[tig].sort(key=lambda x: x[1])
-        print(ext, tig2posread[tig][-1][2], tig2posread[tig][-1][3],
+        print(ext, tig2posread[tig][-2][2], tig2posread[tig][-2][3],
               sep=",", file=args["output"])
 
 if __name__ == '__main__':

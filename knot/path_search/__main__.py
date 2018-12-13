@@ -8,7 +8,7 @@ import argparse
 import itertools
 
 # project import
-from knot import path_search 
+from knot import path_search
 from knot import extremity_search 
 from knot.path_search import paths
 from knot.path_search import gfa2sg
@@ -55,30 +55,32 @@ def main(args=None):
     for row in reader:
         tig_ext.append(tuple(row.values()))
 
-    print("tig1", "read1", "tig2", "read2", "path_len", "nbread_contig",
+    print("tig1", "read1", "tig2", "read2", "nb_read", "nb_base", "paths", "nbread_contig",
           sep=",", file=args["result"])
 
     no_search = path_search.get_ext_ovl(args["asm_graph"], args["tig2tig"]) 
-
+    
     for ext1, ext2 in itertools.permutations(tig_ext, 2):
         if ext1[0][:-6] == ext2[0][:-4] or ext1[0][:-4] == ext2[0][:-6]:
             continue # don't search path between same contig ext
 
-        if(ext1, ext2) in no_search:
-            print(ext1,"no",ext2,"no",0,"", sep=",", file=args["result"])
+ 
+        node1 = path_search.choose_read_ori(ext1[1], ext1[2], ext1[0].split("_")[-1], True)
+        node2 = path_search.choose_read_ori(ext2[1], ext2[2], ext2[0].split("_")[-1], False)
 
-        node1 = ext1[1] + "-" if ext1[2] == "+" else ext1[1] + "+"
-        node2 = ext2[1] + "-" if ext2[2] == "+" else ext2[1] + "+"
+        if(ext1[0], ext2[0]) in no_search:
+            print(ext1[0], node1, ext2[0], node2, 0, 0, "not_search", "not_search", sep=",", file=args["result"])
+            continue
 
-        path = paths.get_path(sg, node1, node2)
+        (path, weight) = paths.get_path(sg, node1, node2)
         if path:
             nbread_contig = paths.format_node_contig_counter(
                 paths.path_through_contig(tig2reads, path),
                 tig2reads)
 
-            print(ext1[0], node1, ext2[0], node2, len(path), nbread_contig,
-                  sep=",", file=args["result"])
-
+            print(ext1[0], node1, ext2[0], node2, len(path), weight, ";".join(path), nbread_contig, sep=",", file=args["result"])
+        else:
+            print(ext1[0], node1, ext2[0], node2, 0, 0, "not_found", "not_found", sep=",", file=args["result"])
 
 if __name__ == "__main__":
     main()
