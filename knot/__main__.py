@@ -22,17 +22,17 @@ def main(args = None):
 
     parser = argparse.ArgumentParser(prog="KNOT")
 
-    # # avaible
-    # # b e g i m o q u w x y z
-    # # A B C E G H I J K L M N Q V W X Y Z
-    parser.add_argument("-C", "--contigs", required=True,
+    parser.add_argument("-c", "--contigs", required=True,
                         help="fasta file than contains contigs")
     parser.add_argument("-g", "--contigs_graph",
                         help="contigs graph")
-    parser.add_argument("-i", "--raw-reads",
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-r", "--raw-reads",
                         help="read used for assembly")
-    parser.add_argument("-m", "--correct-reads",
-                        help="read used for assembly")
+    group.add_argument("-C", "--correct-reads",
+                        help="read used for assembly") 
+   
     parser.add_argument("-o", "--output", required=True,
                         help="output prefix")
     parser.add_argument("--contig-min-length", default=100000, type=int,
@@ -40,28 +40,15 @@ def main(args = None):
     parser.add_argument("--read-type", choices=["pb", "ont"], default="pb",
                         help="type of input read, default pb")
     parser.add_argument("--help-all", action='store_true',
-                        help="Show knot help and snakemake help")
+                        help="show knot help and snakemake help")
     args, unknow_arg = parser.parse_known_args(args)
     args = vars(args)
-
+    
     # Check parameter
     ## raw_reads or correct
     if args["help_all"]:
         parser.print_help()
         snakemake_help()
-        return 1
-
-    go_out = False
-    if args["raw_reads"] is None and args["correct_reads"] is None:
-        print("You need set --raw-reads or --correct-reads\n", file=sys.stderr)
-        go_out = True
-
-    if args["raw_reads"] is not None and args["correct_reads"] is not None:
-        print("You can't set --raw-reads and --correct-reads at same time\n", file=sys.stderr)
-        go_out = True
-
-    if go_out:
-        parser.print_help()
         return 1
 
     ## if contig graph isn't set generate empty file
@@ -93,7 +80,7 @@ def main(args = None):
             "--snakefile", snakemake_rule
     ]
 
-    call += unknow_arg
+    call += unknow_arg[1:]
     
     print(" ".join(call))
     out = subprocess.call(call)
