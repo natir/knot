@@ -18,6 +18,8 @@ Give an assembly and a set of reads to KNOT, it will output an information-rich 
   * [Output description](#output-description)
 - [Citation](#citation)
 
+You can find a demo dataset and instructions for using it, in the demo folder of this repository.
+
 ## Input
 
 1) long reads (corrected or not) FASTA (no FASTQ allowed)
