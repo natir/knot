@@ -35,6 +35,8 @@ def main(args = None):
                         help="read used for assembly")
     parser.add_argument("-o", "--output", required=True,
                         help="output prefix")
+    parser.add_argument("--contig-min-length", default=100000, type=int,
+                        help="contig with size lower this parameter are ignored")
     parser.add_argument("--read-type", choices=["pb", "ont"], default="pb",
                         help="type of input read, default pb")
     parser.add_argument("--help-all", action='store_true',
@@ -75,7 +77,8 @@ def main(args = None):
         "out_prefix="+args["output"],
         "contigs_graph="+args["contigs_graph"],
         "read_type="+args["read_type"],
-        "package_path="+package_path,
+        "min_contig_length="+str(args["contig_min_length"]),
+        "package_path="+package_path
     ]
 
     if args["raw_reads"] is not None:
