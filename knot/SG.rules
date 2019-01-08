@@ -26,7 +26,7 @@ rule spliting_reads:
         yacrd = "{path}.yacrd"
 
     shell:
-        config["yacrd"]["bin"]+" -i {input.mapping} -s {input.reads} -o {output.yacrd}"
+        "yacrd -i {input.mapping} -s {input.reads} -o {output.yacrd}"
 
 rule overlap2overlapgraph:
     input:
