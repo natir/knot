@@ -10,7 +10,7 @@ rule build_AGG:
         "{prefix}_AAG.csv"
 
     shell:
-        "python -m knot.path_search {input.search} {output} {input.ovl_graph} {input.read2asm} {input.asm_graph} {input.tig2tig}"
+        "python -m knot.path_search {input.search} {output} {input.ovl_graph} {input.read2asm} {input.asm_graph} {input.tig2tig} --search-mode " + config["search_mode"]
 
 rule filter_contigs:
     input:

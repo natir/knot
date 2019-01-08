@@ -5,10 +5,13 @@ from collections import Counter
 # pip import
 import networkx as nx
 
-def get_path(graph, n1, n2):
+def get_path(graph, n1, n2, mode="base"):
 
     try:
-        path = nx.shortest_path(graph, n1, n2, weight="weight")
+        if mode == "base":
+            path = nx.shortest_path(graph, n1, n2, weight="weight")
+        else:
+            path = nx.shortest_path(graph, n1, n2)
     except nx.exception.NetworkXError as e:
         logging.debug("Networkx exception"+str(e))
         path = []
@@ -18,8 +21,8 @@ def get_path(graph, n1, n2):
     except nx.exception.NodeNotFound as e:
         logging.debug("Node not found exception "+str(e))
         path = []
-   
-    return path, sum([graph.edges[x, y]["weight"] for x, y in zip(path, path[1:])]) 
+
+    return path, sum([graph.edges[x, y]["weight"] for x, y in zip(path, path[1:])])
 
 def path_through_contig(tig2reads, path):
     tig2nb_read = Counter()

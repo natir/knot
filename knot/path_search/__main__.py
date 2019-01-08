@@ -37,6 +37,8 @@ def main(args=None):
     parser.add_argument("read2asm", type=argparse.FileType('r'))
     parser.add_argument("asm_graph", type=argparse.FileType('r'))
     parser.add_argument("tig2tig", type=argparse.FileType('r'))
+    parser.add_argument("--search-mode", choices=["base", "node"], default="base",
+                        help="what path search optimize, number of base or number of node")
 
     args = vars(parser.parse_args(args))
 
@@ -47,7 +49,6 @@ def main(args=None):
     # get info about contig
     valid_read = extremity_search.get_valid_read(args["ovl_graph"])
     tig2reads = {tig[0]: {v[2] for v in val} for tig, val in extremity_search.get_tig2posread(args["read2asm"], valid_read).items()}
-   
 
     # build list of search
     tig_ext = list()
@@ -72,7 +73,7 @@ def main(args=None):
             print(ext1[0], node1, ext2[0], node2, 0, 0, "not_search", "not_search", sep=",", file=args["result"])
             continue
 
-        (path, weight) = paths.get_path(sg, node1, node2)
+        (path, weight) = paths.get_path(sg, node1, node2, args["search_mode"])
         if path:
             nbread_contig = paths.format_node_contig_counter(
                 paths.path_through_contig(tig2reads, path),

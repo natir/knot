@@ -35,6 +35,8 @@ def main(args = None):
    
     parser.add_argument("-o", "--output", required=True,
                         help="output prefix")
+    parser.add_argument("--search-mode", choices=["base", "node"], default="base",
+                        help="what path search optimize, number of base or number of node")
     parser.add_argument("--contig-min-length", default=100000, type=int,
                         help="contig with size lower this parameter are ignored")
     parser.add_argument("--read-type", choices=["pb", "ont"], default="pb",
@@ -50,7 +52,7 @@ def main(args = None):
         parser.print_help()
         snakemake_help()
         return 1
-
+    
     ## if contig graph isn't set generate empty file
     if args["contigs_graph"] is None:
         args["contigs_graph"] = tempfile.NamedTemporaryFile(delete=False).name
@@ -65,6 +67,7 @@ def main(args = None):
         "contigs_graph="+args["contigs_graph"],
         "read_type="+args["read_type"],
         "min_contig_length="+str(args["contig_min_length"]),
+        "search_mode="+args["search_mode"],
         "package_path="+package_path
     ]
 
