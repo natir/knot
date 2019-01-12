@@ -56,7 +56,7 @@ Assume that
 Then run KNOT as:
 
 ```
-knot -i raw_reads.fasta -C contigs.fasta -g contigs.gfa -o {output prefix}
+knot -r raw_reads.fasta -c contigs.fasta -g contigs.gfa -o {output prefix}
 ```
 
 knot will run a snakemake pipeline and produce `{output prefix}_AAG.csv` see [output section](#output) for more details, and a directory `{output prefix}_knot` where intermediate file are store.
