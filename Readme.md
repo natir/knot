@@ -102,7 +102,7 @@ Recommended solution (2 command, 5 minutes)
 
 ```
 wget https://gitlab.inria.fr/pmarijon/knot/raw/master/conda_env.yml
-conda env create -f conda_env.yml
+conda env create -f conda_env.yml -n knot_env
 ```
 
 Activate environement :
