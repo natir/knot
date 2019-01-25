@@ -74,6 +74,10 @@ def main(args=None):
             continue
 
         (path, weight) = paths.get_path(sg, node1, node2, args["search_mode"])
+        if len(path) <= 2:
+            weight = 0
+        else:
+            weight -= int(ext1[3]) - int(ext2[3])
         if path:
             nbread_contig = paths.format_node_contig_counter(
                 paths.path_through_contig(tig2reads, path),

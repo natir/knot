@@ -22,7 +22,14 @@ def get_path(graph, n1, n2, mode="base"):
         logging.debug("Node not found exception "+str(e))
         path = []
 
-    return path, sum([graph.edges[x, y]["weight"] for x, y in zip(path, path[1:])])
+    if not path:
+        return path, 0
+    
+    if len(path) == 2:
+        edge = graph.edges[path[0], path[1]]
+        return path, 0
+    
+    return path, sum([graph.edges[x, y]["weight"] for x, y in zip(path, path[1:])]) - graph.edges[path[-2], path[-1]]["to_length"]
 
 def path_through_contig(tig2reads, path):
     tig2nb_read = Counter()
