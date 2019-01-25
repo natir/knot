@@ -33,7 +33,7 @@ def main(args=None):
 
     for tig in tig2posread.keys():
         ext = tig[0]+"_begin"
-        print(tig, tig2posread[tig][1])
+        
         if tig2posread[tig][1][5] == "+":
             print(ext,
                   tig2posread[tig][1][2],
@@ -49,6 +49,7 @@ def main(args=None):
             
         ext = tig[0]+"_end"
         tig2posread[tig].sort(key=lambda x: x[1])
+
         if tig2posread[tig][-2][5] == "+":
             print(ext,
                   tig2posread[tig][-2][2],
