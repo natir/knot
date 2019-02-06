@@ -78,6 +78,10 @@ def main(args=None):
             weight = 0
         else:
             weight -= int(ext1[3]) - int(ext2[3])
+
+        if weight < 0:
+            weight = 0
+            
         if path:
             nbread_contig = paths.format_node_contig_counter(
                 paths.path_through_contig(tig2reads, path),
