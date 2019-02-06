@@ -43,6 +43,8 @@ setup(
             'knot.path_search = knot.path_search.__main__:main',
             'knot.sg_generation = knot.sg_generation.__main__:main',
             'knot.extremity_search = knot.extremity_search.__main__:main'
+            'knot.analysis.classifications = knot.analysis.classifications:main'
+            'knot.analysis.hamilton_path = knot.analysis.hamilton_path:main'
         ]
     }
 )
