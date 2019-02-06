@@ -32,7 +32,7 @@ def main(args=None):
         if row["paths"] == "not_search":
             nb_base = 0
         else:
-            nb_base = row["nb_base"]
+            nb_base = int(row["nb_base"])
             
         # keep only the shortest path
         if key in paths and paths[key]["nb_base"] < nb_base:
