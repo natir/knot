@@ -107,12 +107,12 @@ conda env create -f conda_env.yml
 
 Activate environement :
 ```
-source activate knot_env
+conda activate knot_env
 ```
 
 Unactivate environement :
 ```
-source deactivate knot_env
+conda deactivate
 ```
 
 ### Install without conda
