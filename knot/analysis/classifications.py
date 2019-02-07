@@ -50,6 +50,7 @@ def main(args=None):
 
     multi_adjacent = {k for k, count in counter.items() if count > 1}
 
+    print("type,ext1,ext2", file=args["output"])
     for key in paths:
         if not paths[key]["adjacent"]:
             path_type = "distant"
@@ -58,7 +59,7 @@ def main(args=None):
         else:
             path_type = "single adjacency"
             
-        print("{},{}".format(path_type, "-".join(key)), file=args["output"])
+        print("{},{},{}".format(path_type, *key), file=args["output"])
         
 def adjacent_len(length, threshold):
     return int(length) <= threshold

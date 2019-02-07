@@ -1,0 +1,14 @@
+<h1>Contig information</h1>
+
+<table class="dataframe", border=1>
+  <tr>
+    <th>tig name</th>
+    <th>tig length</th>
+  </tr>
+  {% for tig, len in tig_info.items() %}
+  <tr>
+    <td>{{tig}}</td>
+    <td>{{len}} bases</td>
+  </tr>
+  {% endfor %}
+</table>

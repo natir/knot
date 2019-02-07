@@ -1,0 +1,14 @@
+<h1>Hamiltonian path</h1>
+
+<table class="dataframe", border=1>
+  <tr>
+    <th>path</th>
+    <th>weight</th>
+  </tr>
+  {% for path, weight in hamilton_info %}
+  <tr>
+    <td>{{path}}</td>
+    <td>{{weight}} bases</td>
+  </tr>
+  {% endfor %}
+</table>

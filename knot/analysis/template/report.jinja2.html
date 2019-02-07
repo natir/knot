@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>knot report</title>
+
+    {% include 'css.jinja2.html' %}
+    {% include 'javascript.jinja2.html' %}
+</head>
+<body>
+
+  {% include 'navigation.jinja2.html' %}
+
+  {% include 'contig_report.jinja2.html' %}
+
+  {% include 'path_classification.jinja2.html' %}
+
+  {% include 'aag.jinja2.html' %}
+  
+  {% if hamilton_info is defined %}
+  {% include 'hamilton_path.jinja2.html' %}
+  {% endif %}
+
+  {% include 'full_aag_info.jinja2.html'%}
+  
+</body>
+</html>

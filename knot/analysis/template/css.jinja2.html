@@ -1,0 +1,100 @@
+<style>
+    img {
+	max-width: 90%;
+	height: auto;
+    }
+
+    h1 {
+	font-family : Verdana;
+	border-left : 10px solid black;
+	border-bottom : 1px solid black;
+	padding-left: 10px;
+	width: 100%;
+    }
+
+    h3 {
+	font-family: Verdana;
+	margin-left: 20px;
+    }
+
+    table {
+	border-collapse: collapse;
+	border: solid 1px #333333;
+    }
+
+    table tr:nth-child(odd){
+	background-color:#cccccc;
+    }
+
+    table tr:nth-child(even){
+	background-color:#ffffff;
+    }
+ 
+    table tr td {
+	text-align:right;
+    }
+
+    div.graph_image {
+	display: none;
+	border-color: black;
+	border-width: 2px;
+	border-style: solid;
+    }
+
+    .dataframe {
+	font-family : Monaco;
+	font-size : small;
+    }
+    
+    .dataframe th {
+	color: white;
+	background: #2778b2;
+    }
+
+    .path {
+	text-align: center;
+    }   
+
+    .eighty_img {
+	max-width: 80%;
+	height: auto;
+    }
+
+    .twenty_img {
+	max-width: 19%;
+	height: auto;
+    }
+
+    table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
+	content: " \25B4\25BE" 
+    }
+
+    .navigation {
+	top: 0px;
+	right: 0px;
+	width: 20%;
+	position: fixed;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	border-color: black;
+	border-width: 2px;
+	border-style: solid;
+    }
+
+    .navigation ul {
+    }
+
+    .navigation li a {
+	text-align: center;
+	text-decoration: none;
+    }
+
+    .navigation li a:hover, .navigation li a:focus, .navigation li a:active {
+	background: #cccccc;
+	text-decoration: underline ;
+    }
+</style>
+
+{% include 'visjs.css.jinja2.html' %}

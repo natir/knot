@@ -1,0 +1,16 @@
+<h1>Path classification</h1>
+
+<table class="dataframe", border=1>
+  <tr>
+    <th>contig extremity 1</th>
+    <th>contig extremity 1</th>
+    <th>type</th>
+  </tr>
+  {% for (ext1, ext2), type in classification_info.items() %}
+  <tr>
+    <td>{{ext1}}</td>
+    <td>{{ext2}}</td>
+    <td>{{type}}</td>
+  </tr>
+  {% endfor %}
+</table>

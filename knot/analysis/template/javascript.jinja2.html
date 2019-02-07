@@ -1,0 +1,49 @@
+<script>
+function generate_navigation_menu()
+{
+    var nav_list = document.getElementById("navigation_list");
+    var nav_list_keep = nav_list;
+
+    var h1_list = document.querySelectorAll("h1, h3");
+    var last_list_item;
+    var last_element = false;
+    for(var i = 0; i < h1_list.length; i++)
+    {
+	var actual_h1 = h1_list[i];
+	if(actual_h1.tagName == "H3" && last_element && last_element.tagName == "H1")
+	{
+	    var sublist = document.createElement("ul");
+	    last_list_item.appendChild(sublist)
+
+	    nav_list = sublist;
+
+	}
+	if(actual_h1.tagName == "H1" && last_element && last_element.tagName == "H3")
+	{
+	    nav_list = nav_list_keep;
+	} 
+
+	var list_item = document.createElement("li");
+	var link_item = document.createElement("a");
+
+	link_item.href = "#" + actual_h1.getAttribute("id");
+	link_item.innerHTML = actual_h1.innerHTML;
+	
+	list_item.appendChild(link_item);
+	nav_list.appendChild(list_item);
+
+	last_list_item = list_item;
+	last_element = actual_h1;
+    }
+}
+
+function onload_call_function()
+{
+    // Navigation menu
+    generate_navigation_menu();
+}
+
+document.addEventListener('DOMContentLoaded', onload_call_function, false);
+</script>
+
+{% include 'visjs.javascript.jinja2.html' %}

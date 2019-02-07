@@ -1,0 +1,21 @@
+<h1>All AAG information</h1>
+
+<table class="dataframe", border=1>
+  <tr>
+    <th>extremity 1</th>
+    <th>extremity 2</th>
+    <th>path len in bases</th>
+    <th>path len in reads</th>
+    <th>number of read assign to tig in path</th>
+    <th>read at extremity 1</th>
+    <th>read at extremity 2</th>
+<!---    <th>paths</th> --->
+  </tr>
+  {% for record in full_aag_info %}
+  <tr>
+    {% for elt in record %}
+    <td>{{elt}}</td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</table>
