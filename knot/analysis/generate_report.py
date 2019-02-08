@@ -5,6 +5,7 @@ import os
 import csv
 import sys
 import argparse
+import subprocess
 
 from jinja2 import FileSystemLoader
 from jinja2 import Environment
@@ -18,29 +19,33 @@ def main(args=None):
 
     parser = argparse.ArgumentParser(prog="knot.analysis.generate_report")
 
-    parser.add_argument("-a", "--aag", type=argparse.FileType('r'), help="AAG filepath")
-    parser.add_argument("-C", "--contig", type=argparse.FileType('r'), help="contig filepath", required=True)
-    parser.add_argument("-c", "--classification", type=argparse.FileType('r'), help="path classification filepath", required=True)
-    parser.add_argument("-p", "--hamilton-path", type=argparse.FileType('r'), help="hamilton path filepath")
-    parser.add_argument("-o", "--output", type=argparse.FileType('wb'), help="path where report was write")
+    parser.add_argument("-i", "--input_prefix", type=str, help="prefix of knot output", required=True)
+    parser.add_argument("-o", "--output", type=argparse.FileType('wb'), help="path where report was write", required=True)
+    
+    parser.add_argument("-c", "--classification", help="Add path classification in report", action="store_true")
+    parser.add_argument("-p", "--hamilton-path", help="Add hamilton path in report", action="store_true")
 
     args = vars(parser.parse_args(args))
-    
+
     template_path = os.path.dirname(__file__) + os.sep + "template" + os.sep
     env = Environment(loader=FileSystemLoader(template_path))
     template = env.get_template('report.jinja2.html')
 
     param = dict()
     
-    contig_info(param, args["contig"])
-    classification_info(param, args["classification"])
+    contig_info(param, open(args["input_prefix"] + "knot/contigs.fasta"))
 
-    if args["hamilton_path"] is not None:
-        hamilton_info(param, args["hamilton_path"])
+    if args["classification"]:
+        run_classification(args["input_prefix"] + "AAG.csv", args["input_prefix"])
+        classification_info(param, open(args["input_prefix"]+"classification.csv"))
+
+    if args["hamilton_path"]:
+        run_hamilton(args["input_prefix"] + "AAG.csv", args["input_prefix"])
+        hamilton_info(param, open(args["input_prefix"]+"hamilton_path.csv"))
     
-    full_aag_info(param, args["aag"])
-    args["aag"].seek(0)
-    build_AAG_representation(param, args["aag"])
+    full_aag_info(param, open(args["input_prefix"]+"AAG.csv"))
+
+    build_AAG_representation(param, open(args["input_prefix"]+"AAG.csv"))
         
     args["output"].write(template.render(param).encode("utf-8"))
 
@@ -52,6 +57,9 @@ def contig_info(param, contig_file):
 
     param["tig_info"] = tig2len
 
+def run_classification(aag_path, prefix_output):
+    subprocess.run(["knot.analysis.classifications", "-i", aag_path, "-o", prefix_output+"_classification.csv"])
+    
 def classification_info(param, classification_file):
 
     ext2type = dict()
@@ -59,6 +67,9 @@ def classification_info(param, classification_file):
         ext2type[(row["ext1"], row["ext2"])] = row["type"]
 
     param["classification_info"] = ext2type
+
+def run_hamilton(aag_path, prefix_output):
+    subprocess.run(["knot.analysis.hamilton_path", "-i", aag_path, "-o", prefix_output+"_hamilton_path.csv"])
 
 def hamilton_info(param, hamilton_file):
 
@@ -103,8 +114,8 @@ def build_AAG_representation(param, aag_file):
 
         
     for tig in tig_set:
-        nodes += "{{ id: '{}_begin', label: '{}_begin' }},\n".format(tig, tig)
-        nodes += "{{ id: '{}_end', label: '{}_end' }},\n".format(tig, tig)
+        nodes += "{{ id: '{}_begin', label: 'begin' }},\n".format(tig, tig)
+        nodes += "{{ id: '{}_end', label: 'end' }},\n".format(tig, tig)
         
     for tig in tig_set:
         e1 = tig + "_begin"

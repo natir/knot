@@ -13,7 +13,9 @@
 
   {% include 'contig_report.jinja2.html' %}
 
+  {% if classification_info is defined %}
   {% include 'path_classification.jinja2.html' %}
+  {% endif %}
 
   {% include 'aag.jinja2.html' %}
   

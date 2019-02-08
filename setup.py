@@ -45,7 +45,7 @@ setup(
             'knot.extremity_search = knot.extremity_search.__main__:main',
             'knot.analysis.classifications = knot.analysis.classifications:main',
             'knot.analysis.hamilton_path = knot.analysis.hamilton_path:main',
-            'knot.analysis.generation_report = knot.analysis.generation_report:main'
+            'knot.analysis = knot.analysis.generation_report:main'
         ]
     }
 )

@@ -1,5 +1,6 @@
 <h1>Hamiltonian path</h1>
 
+<h2>Table of path with weight</h2>
 <table class="dataframe", border=1>
   <tr>
     <th>path</th>
@@ -12,3 +13,47 @@
   </tr>
   {% endfor %}
 </table>
+
+<h2>Evolution of weight</h2>
+
+<div id="hamilton_curve"></div>
+<script type="text/javascript">
+  var container = document.getElementById('hamilton_curve')
+
+  var items = [
+      {% for _, weight in hamilton_info %}
+      {x: {{loop.index}}, y: {{weight}}},
+      {% endfor %}
+  ]
+
+  var dataset = new vis.DataSet(items);
+
+  var options = {
+      format: {
+          minorLabels: {
+              millisecond: 'x',
+              second: 'x',
+              minute: 'x',
+              hour: 'x',
+              weekday: 'x',
+              day: 'x',
+              month: 'x',
+              year: 'x'
+          },
+          majorLabels: {
+              millisecond: '',
+              second: '',
+              minute: '',
+              hour: '',
+              weekday: '',
+              day: '',
+              month: '',
+              year: ''
+          }
+	  
+      },
+      timeAxis: {scale: 'millisecond', step: 10},
+  };
+
+  var graph2d = new vis.Graph2d(container, dataset, options);
+</script>

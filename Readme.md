@@ -7,6 +7,8 @@ Give an assembly and a set of reads to KNOT, it will output an information-rich 
 - [Input](#input)
 - [Output](#output)
 - [Usage](#usage)
+  * [Run knot](#run-knot)
+  * [Generate html report on knot result](generate-html-report-on-knot-result)
 - [Installation](#installation)
   * [Install with conda](#install-with-conda)
   * [Install without conda](#install-without-conda)
@@ -53,6 +55,8 @@ Assume that
 - contigs are stored in `contigs.fasta`
 - contig graph is stored in `contigs.gfa`
 
+### Run knot
+
 Then run KNOT as:
 
 ```
@@ -93,6 +97,17 @@ optional arguments:
 ```
 
 In addition, snakemake parameters can be add after `--`.
+
+### Generate html report on knot result
+
+You can generate a html report `knot_report.html` on knot information generate previously with this command:
+```
+knot.analysis -i {output prefix give to knot previously} -c -p -o knot_report.html
+```
+
+If `-c` is present, knot.analysis run a path classification, based on path length and composition see [manuscript](#citation) for more details.
+
+If `-p` is present, knot.analysis run a hamilton path search, see [manuscript](#citation) for more details.
 
 ## Installation
 

@@ -85,6 +85,9 @@ def AAG2graph(AAG_path):
         else:
             nb_base = int(row["nb_base"])
 
+        if nb_base < 0:
+            nb_base = 0
+            
         if key in paths and paths[key] < nb_base:
             continue
 
