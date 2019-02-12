@@ -33,19 +33,22 @@ def main(args=None):
 
     param = dict()
     
-    contig_info(param, open(args["input_prefix"] + "knot/contigs.fasta"))
+    contig_info(param, open(args["input_prefix"] + "_knot/contigs.fasta"))
 
     if args["classification"]:
-        run_classification(args["input_prefix"] + "AAG.csv", args["input_prefix"])
-        classification_info(param, open(args["input_prefix"]+"classification.csv"))
+        run_classification(args["input_prefix"] + "_AAG.csv", args["input_prefix"])
+        classification_info(param, open(args["input_prefix"]+"_knot" + os.sep + "classification.csv"))
 
     if args["hamilton_path"]:
-        run_hamilton(args["input_prefix"] + "AAG.csv", args["input_prefix"])
-        hamilton_info(param, open(args["input_prefix"]+"hamilton_path.csv"))
+        run_hamilton(args["input_prefix"] + "_AAG.csv", args["input_prefix"])
+        hamilton_info(param, open(args["input_prefix"]+"_knot" + os.sep + "hamilton_path.csv"))
     
-    full_aag_info(param, open(args["input_prefix"]+"AAG.csv"))
+    full_aag_info(param, open(args["input_prefix"]+"_AAG.csv"))
 
-    build_AAG_representation(param, open(args["input_prefix"]+"AAG.csv"))
+    build_AAG_representation(param, open(args["input_prefix"]+"_AAG.csv"))
+
+    if args["classification"]:
+        build_clean_AAG(param, open(args["input_prefix"]+"_AAG.csv"), open(args["input_prefix"] + "_knot" + os.sep + "classification.csv"))
         
     args["output"].write(template.render(param).encode("utf-8"))
 
@@ -58,18 +61,20 @@ def contig_info(param, contig_file):
     param["tig_info"] = tig2len
 
 def run_classification(aag_path, prefix_output):
-    subprocess.run(["knot.analysis.classifications", "-i", aag_path, "-o", prefix_output+"_classification.csv"])
-    
-def classification_info(param, classification_file):
+    subprocess.run(["knot.analysis.classifications", "-i", aag_path, "-o", prefix_output + "_knot" + os.sep + "classification.csv"])
 
+def __classification_info(classification_file):
     ext2type = dict()
     for row in csv.DictReader(classification_file):
         ext2type[(row["ext1"], row["ext2"])] = row["type"]
 
-    param["classification_info"] = ext2type
+    return ext2type
+    
+def classification_info(param, classification_file):
+    param["classification_info"] = __classification_info(classification_file)
 
 def run_hamilton(aag_path, prefix_output):
-    subprocess.run(["knot.analysis.hamilton_path", "-i", aag_path, "-o", prefix_output+"_hamilton_path.csv"])
+    subprocess.run(["knot.analysis.hamilton_path", "-i", aag_path, "-o", prefix_output + "_knot" + os.sep + "hamilton_path.csv"])
 
 def hamilton_info(param, hamilton_file):
 
@@ -87,9 +92,7 @@ def full_aag_info(param, aag_file):
 
     param["full_aag_info"] = aag_record
 
-def build_AAG_representation(param, aag_file):
-    nodes = "" 
-    edges = ""
+def get_aag_graph(aag_file):
 
     edges_dict = dict()
     tig_set = set()
@@ -107,12 +110,12 @@ def build_AAG_representation(param, aag_file):
 
         edges_dict[frozenset((row["tig1"], row["tig2"]))] = int(row["nb_base"])
 
-    for (tig1, tig2), length in edges_dict.items():
-        if length <= 0:
-            length = "overlap"
-        edges += "{{ from: '{}', to: '{}', label: '{}', id: '{}' }},\n".format(tig1, tig2, length, tig1+"-"+tig2)
+    return edges_dict, tig_set
 
-        
+def __construct_tig(tig_set):
+    nodes = ""
+    edges = ""
+
     for tig in tig_set:
         nodes += "{{ id: '{}_begin', label: 'begin' }},\n".format(tig, tig)
         nodes += "{{ id: '{}_end', label: 'end' }},\n".format(tig, tig)
@@ -121,9 +124,40 @@ def build_AAG_representation(param, aag_file):
         e1 = tig + "_begin"
         e2 = tig + "_end"
         edges += "{{from: '{}', to: '{}', label: '{}', width: 10, length: 1}},\n".format(e1, e2, tig)
+
+    return nodes, edges
+        
+def build_AAG_representation(param, aag_file):
+    edges_dict, tig_set = get_aag_graph(aag_file)
+
+    nodes, edges = __construct_tig(tig_set)
+    
+    for (tig1, tig2), length in edges_dict.items():
+        if length <= 0:
+            length = "overlap"
+        edges += "{{ from: '{}', to: '{}', label: '{}', id: '{}' }},\n".format(tig1, tig2, length, tig1+"-"+tig2)
         
     param["aag_nodes"] = nodes
     param["aag_edges"] = edges
 
+def build_clean_AAG(param, aag, classification):
+    edges_dict, tig_set = get_aag_graph(aag)
+    classification = __classification_info(classification)
+    nodes, edges = __construct_tig(tig_set)
+    
+    for (tig1, tig2), value in classification.items():
+        if not value.endswith("adjacency"):
+            continue
+        
+        key = frozenset((tig1, tig2))
+        length = edges_dict[key]
+
+        if length <= 0:
+            length = "overlap"
+        edges += "{{ from: '{}', to: '{}', label: '{}', id: '{}' }},\n".format(tig1, tig2, length, tig1+"-"+tig2)
+
+    param["aag_clean_nodes"] = nodes
+    param["aag_clean_edges"] = edges
+    
 if __name__ == "__main__":
     main()

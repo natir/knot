@@ -1,5 +1,6 @@
 <h1>Augmented Assembly Graph</h1>
 
+<h2>ALL link</h2>
 <div id="aag"></div>
 
 <script type="text/javascript">
@@ -14,6 +15,43 @@
 
   // create a network
   var container = document.getElementById('aag');
+  var data = {
+    nodes: nodes,
+    edges: edges
+  };
+  var options = {
+      height: '600px',
+      width: '600px',
+      nodes: {
+	  shape: 'dot',
+	  },
+      physics: {
+	forceAtlas2Based: {
+	    avoidOverlap: 400
+	},
+	solver: 'forceAtlas2Based',
+      }
+  };
+  var network = new vis.Network(container, data, options);
+</script>
+
+
+<h2>Only adjacents link</h2>
+
+<div id="aag_clean"></div>
+
+<script type="text/javascript">
+  // create an array with nodes
+  var nodes = new vis.DataSet([
+    {{aag_clean_nodes}}
+  ]);
+  // create an array with edges
+  var edges = new vis.DataSet([
+    {{aag_clean_edges}}
+  ]);
+
+  // create a network
+  var container = document.getElementById('aag_clean');
   var data = {
     nodes: nodes,
     edges: edges
