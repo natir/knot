@@ -25,7 +25,7 @@ def get_path(graph, n1, n2, mode="base"):
     if not path:
         return path, 0
     
-    if len(path) == 2:
+    if len(path) <= 2:
         edge = graph.edges[path[0], path[1]]
         return path, 0
     
