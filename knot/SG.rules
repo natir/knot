@@ -36,4 +36,4 @@ rule overlap2overlapgraph:
         "{path}.gfa"
     
     shell:
-        "fpa -o gfa1 -s -c -i {output} {input}"
+        "fpa -o gfa1 -s -c -i {input} {output}"

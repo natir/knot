@@ -10,7 +10,7 @@ rule build_AGG:
         "{prefix}_AAG.csv"
 
     shell:
-        "python -m knot.path_search {input.search} {output} {input.ovl_graph} {input.read2asm} {input.asm_graph} {input.tig2tig} --search-mode " + config["search_mode"]
+        "knot.path_search {input.search} {output} {input.ovl_graph} {input.read2asm} {input.asm_graph} {input.tig2tig} --search-mode " + config["search_mode"]
 
 rule filter_contigs:
     input:
@@ -20,7 +20,7 @@ rule filter_contigs:
         "{prefix}_filtred.fasta"
     
     shell:
-        "python -m knot.filter_tig {input} {output} -t " + str(config['min_contig_length'])
+        "knot.filter_tig {input} {output} -t " + str(config['min_contig_length'])
 
 rule map_contigs2contigs:
     input:
@@ -68,6 +68,6 @@ rule find_extremity:
         "{prefix}ext_search.csv"
 
     shell:
-        "python -m knot.extremity_search {input.read2asm} {input.read2read} {output}"
+        "knot.extremity_search {input.read2asm} {input.read2read} {output}"
 
 

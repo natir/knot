@@ -5,7 +5,7 @@ import argparse
 
 from Bio import SeqIO
 
-def main(args):
+def main(args=None):
 
     if args is None:
         args = sys.argv[1:]

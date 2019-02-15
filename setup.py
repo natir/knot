@@ -41,6 +41,7 @@ setup(
         'console_scripts': [
             'knot = knot.__main__:main',
             'knot.path_search = knot.path_search.__main__:main',
+            'knot.filter_tig = knot.filter_tig.__main__:main',
             'knot.sg_generation = knot.sg_generation.__main__:main',
             'knot.extremity_search = knot.extremity_search.__main__:main',
             'knot.analysis.classifications = knot.analysis.classifications:main',
