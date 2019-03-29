@@ -2,6 +2,8 @@
 
 KNOT: Knowledge Network Overlap exTraction is a tool for the investigation of fragmented long read assemblies.
 
+KNOT is described in article **Graph analysis of fragmented long-read bacterial genome assemblies** accepted in [Bioinformatics](https://doi.org/10.1093/bioinformatics/btz219) ([preprint](http://pierre.marijon.fr/dow/graph_analysis_of_fragmented_long-read_bacterial_genome_assemblies.pdf) version)
+
 Give an assembly and a set of reads to KNOT, it will output an information-rich contig graph in CSV format that tells you about adjacencies between contigs.
 
 - [Input](#input)
@@ -15,6 +17,7 @@ Give an assembly and a set of reads to KNOT, it will output an information-rich 
 - [Update](#how-to-update-an-already-installed-knot)
   * [Conda installation](#conda-installation)
   * [Non-conda installation](#non-conda-installation)
+- [Limitations](#limitations)
 - [More details](#more-details)
   * [Pipeline presentation](#pipeline-presentation)
   * [Output description](#output-description)
@@ -164,6 +167,11 @@ conda env create -f conda_env.yml
 pip3 install --upgrade git+https://gitlab.inria.fr/pmarijon/knot.git
 ```	
 
+
+## Limitations
+
+This tool has mainly be tested on bacterial genomes only, where it takes 30 minutes to run (in most case). In principle it should also run on larger genomes. But then we expect that the produced augmented assembly graphs will need to be automatically parsed, as their visualization will be more challenging.
+
 ## More details
 ### Pipeline presentation
 
@@ -213,7 +221,25 @@ If you run knot with corrected reads:
 ├── raw_reads_splited.paf   # self mappig of raw_reads_splited
 └── read2asm.paf            # mapping of read on contigs_filterd
 ```
-
+	
 ## Citation
 
-Please cite this Github URL for now, manuscript is in submission.
+If you use knot in your research, please cite the following publication:
+```
+Pierre Marijon, Rayan Chikhi, Jean-Stéphane Varré, Graph analysis of fragmented long-read bacterial genome assemblies, Bioinformatics, btz219, https://doi.org/10.1093/bioinformatics/btz219
+```
+
+```
+@article{Marijon2019,
+  doi = {10.1093/bioinformatics/btz219},
+  url = {https://doi.org/10.1093/bioinformatics/btz219},
+  year  = {2019},
+  month = {mar},
+  publisher = {Oxford University Press ({OUP})},
+  author = {Pierre Marijon and Rayan Chikhi and Jean-St{\'{e}}phane Varr{\'{e}}},
+  editor = {John Hancock},
+  title = {Graph analysis of fragmented long-read bacterial genome assemblies},
+  journal = {Bioinformatics}
+}
+```
+	
