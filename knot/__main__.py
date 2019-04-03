@@ -48,8 +48,6 @@ def main(args = None):
     args, unknow_arg = parser.parse_known_args(args)
     args = vars(args)
 
-    print(args)
-
     # Check parameter
     ## raw_reads or correct
     if args["help_all"]:

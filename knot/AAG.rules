@@ -3,7 +3,7 @@ self_lookup = " --self-lookup" if config["self_lookup"] == True else ""
 rule build_AGG:
     input:
         search = "{prefix}_knot/ext_search.csv",
-        ovl_graph = "{prefix}_knot/raw_reads_splited.gfa",
+        ovl_graph = "{prefix}_knot/raw_reads_splited_filtred.gfa",
         read2asm = "{prefix}_knot/read2asm.paf",
         asm_graph = "{prefix}_knot/contigs_graph.gfa",
         tig2tig = "{prefix}_knot/contigs_filtred.gfa",
@@ -16,20 +16,20 @@ rule build_AGG:
 
 rule filter_contigs:
     input:
-        "{prefix}.fasta"
+        "{prefix}contigs.fasta"
     
     output:
-        "{prefix}_filtred.fasta"
+        "{prefix}contigs_filtred.fasta"
     
     shell:
         "knot.filter_tig {input} {output} -t " + str(config['min_contig_length'])
 
 rule map_contigs2contigs:
     input:
-        "{prefix}_filtred.fasta"
+        "{prefix}contigs_filtred.fasta"
 
     output:
-        "{prefix}_filtred.paf"
+        "{prefix}contigs_filtred.paf"
 
     threads:
         8
@@ -41,6 +41,7 @@ rule map_contigs2contigs:
                   "{input}", "{input}",
                   ">", "{output}"
                 ])
+
 
 rule map_read2contigs:
     input:
@@ -61,10 +62,23 @@ rule map_read2contigs:
                   ">", "{output}"
                 ])
 
+
+rule filter_reads:
+    input:
+        mapping = "{prefix}read2asm.paf",
+        read = "{prefix}raw_reads_splited.fasta"
+
+    output:
+        "{prefix}raw_reads_splited_filtred.fasta"
+
+    shell:
+        "knot.sg_generation {input.mapping} {input.read} {output}"
+
+
 rule find_extremity:
     input:
         read2asm = "{prefix}read2asm.paf",
-        read2read = "{prefix}raw_reads_splited.gfa"
+        read2read = "{prefix}raw_reads_splited_filtred.gfa"
 
     output:
         "{prefix}ext_search.csv"

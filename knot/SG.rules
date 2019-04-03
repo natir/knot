@@ -16,6 +16,7 @@ rule self_mapping:
                   ">", "{output}"
                 ])
 
+
 rule spliting_reads:
     input:
         mapping = "{path}.paf",
@@ -27,6 +28,7 @@ rule spliting_reads:
 
     shell:
         "yacrd chimeric -i {input.mapping} -s {input.reads} -o {output.yacrd}"
+
 
 rule overlap2overlapgraph:
     input:
