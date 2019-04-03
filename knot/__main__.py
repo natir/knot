@@ -41,11 +41,15 @@ def main(args = None):
                         help="contig with size lower this parameter are ignored")
     parser.add_argument("--read-type", choices=["pb", "ont"], default="pb",
                         help="type of input read, default pb")
+    parser.add_argument("--self-lookup", action="store_true", default=False,
+                        help="if it set knot search path between extremity of same contig")
     parser.add_argument("--help-all", action='store_true',
                         help="show knot help and snakemake help")
     args, unknow_arg = parser.parse_known_args(args)
     args = vars(args)
-    
+
+    print(args)
+
     # Check parameter
     ## raw_reads or correct
     if args["help_all"]:
@@ -68,6 +72,7 @@ def main(args = None):
         "read_type="+args["read_type"],
         "min_contig_length="+str(args["contig_min_length"]),
         "search_mode="+args["search_mode"],
+        "self_lookup="+str(args["self_lookup"]),
         "package_path="+package_path
     ]
 

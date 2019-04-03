@@ -1,3 +1,5 @@
+self_lookup = " --self-lookup" if config["self_lookup"] == True else ""
+
 rule build_AGG:
     input:
         search = "{prefix}_knot/ext_search.csv",
@@ -10,7 +12,7 @@ rule build_AGG:
         "{prefix}_AAG.csv"
 
     shell:
-        "knot.path_search {input.search} {output} {input.ovl_graph} {input.read2asm} {input.asm_graph} {input.tig2tig} --search-mode " + config["search_mode"]
+        "knot.path_search {input.search} {output} {input.ovl_graph} {input.read2asm} {input.asm_graph} {input.tig2tig} --search-mode " + config["search_mode"] + self_lookup
 
 rule filter_contigs:
     input:

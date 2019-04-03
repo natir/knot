@@ -39,7 +39,9 @@ def main(args=None):
     parser.add_argument("tig2tig", type=argparse.FileType('r'))
     parser.add_argument("--search-mode", choices=["base", "node"], default="base",
                         help="what path search optimize, number of base or number of node")
-
+    parser.add_argument("--self-lookup", action='store_true',
+                        help="if it set knot search path between extremity of same contig")
+ 
     args = vars(parser.parse_args(args))
 
     # gfa to sg
@@ -62,10 +64,10 @@ def main(args=None):
     no_search = path_search.get_ext_ovl(args["asm_graph"], args["tig2tig"]) 
     
     for ext1, ext2 in itertools.permutations(tig_ext, 2):
-        if ext1[0][:-6] == ext2[0][:-4] or ext1[0][:-4] == ext2[0][:-6]:
+
+        if not args["self_lookup"] and (ext1[0][:-6] == ext2[0][:-4] or ext1[0][:-4] == ext2[0][:-6]):
             continue # don't search path between same contig ext
 
- 
         node1 = path_search.choose_read_ori(ext1[1], ext1[2], ext1[0].split("_")[-1], True)
         node2 = path_search.choose_read_ori(ext2[1], ext2[2], ext2[0].split("_")[-1], False)
 
