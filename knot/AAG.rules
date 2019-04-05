@@ -14,6 +14,7 @@ rule build_AGG:
     shell:
         "knot.path_search {input.search} {output} {input.ovl_graph} {input.read2asm} {input.asm_graph} {input.tig2tig} --search-mode " + config["search_mode"] + self_lookup
 
+
 rule filter_contigs:
     input:
         "{prefix}contigs.fasta"
@@ -23,6 +24,7 @@ rule filter_contigs:
     
     shell:
         "knot.filter_tig {input} {output} -t " + str(config['min_contig_length'])
+
 
 rule map_contigs2contigs:
     input:
