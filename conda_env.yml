@@ -9,4 +9,4 @@ dependencies:
  - fpa=0.4
  - snakemake
  - pip:
-   - "git+https://gitlab.inria.fr/pmarijon/knot.git@v1.1"
+   - "git+https://github.com/natir/knot.git@v1.1"
