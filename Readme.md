@@ -145,6 +145,7 @@ Requirements:
 - snakemake >= 5.3
 - [yacrd](https://github.com/natir/yacrd) avaible in bioconda or cargo >= 4.1
 - [fpa](https://github.com/natir/fpa) avaible in bioconda or cargo >= 0.3
+- [minimap2](https://github.com/lh3/minimap2) avaible in bioconda
 
 Instruction:
 

@@ -4,9 +4,11 @@ channels:
  - bioconda
  - pdrops
 dependencies:
+ - minimap2
  - python=3
  - yacrd
- - fpa=0.4
+ - fpa
  - snakemake
+ - pip>=3
  - pip:
    - "git+https://github.com/natir/knot.git@v1.1"
