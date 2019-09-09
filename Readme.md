@@ -123,7 +123,7 @@ If `-p` is present, knot.analysis run a hamilton path search, see [manuscript](#
 Recommended solution (2 command, 5 minutes)
 
 ```
-wget https://github.com/natir/knot/raw/master/conda_env.yml
+wget https://raw.githubusercontent.com/natir/knot/v1.1/conda_env.yml
 conda env create -f conda_env.yml
 ```
 
