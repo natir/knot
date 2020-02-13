@@ -27,7 +27,7 @@ rule spliting_reads:
         yacrd = "{path}.yacrd"
 
     shell:
-        "yacrd chimeric -i {input.mapping} -s {input.reads} -o {output.yacrd}"
+        "yacrd -i {input.mapping} -o {output.yacrd} split -i {input.reads} -o {output.splited_read}"
 
 
 rule overlap2overlapgraph:
