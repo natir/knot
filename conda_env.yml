@@ -6,9 +6,9 @@ channels:
 dependencies:
  - minimap2
  - python=3
- - yacrd
- - fpa
- - snakemake
+ - yacrd>=0.6
+ - fpa>=0.5
+ - snakemake>=5.3
  - pip>=3
  - pip:
-   - "git+https://github.com/natir/knot.git@v1.1"
+   - "git+https://github.com/natir/knot.git@v1.3"

@@ -67,7 +67,7 @@ Assume that
 Then run KNOT as:
 
 ```
-knot -r raw_reads.fasta -c contigs.fasta [-g contigs.gfa] -o {output prefix}
+knot -r raw_reads.fasta -c contigs.fasta [-g contigs.gfa] -o {output prefix} -- -j {number of paralelle jobs avaible} [any snakemake parameter you like]
 ```
 
 knot will run a snakemake pipeline and produce `{output prefix}_AAG.csv` see [output section](#output) for more details, and a directory `{output prefix}_knot` where intermediate file are store.
@@ -123,8 +123,8 @@ If `-p` is present, knot.analysis run a hamilton path search, see [manuscript](#
 Recommended solution (2 command, 5 minutes)
 
 ```
-wget https://raw.githubusercontent.com/natir/knot/v1.1/conda_env.yml
-conda env create -f conda_env.yml
+wget https://raw.githubusercontent.com/natir/knot/v1.3/conda_env.yml
+GIT_LFS_SKIP_SMUDGE=1 conda env create -f conda_env.yml
 ```
 
 Activate environement :
@@ -143,14 +143,14 @@ Requirements:
 
 - python >= 3.6
 - snakemake >= 5.3
-- [yacrd](https://github.com/natir/yacrd) avaible in bioconda or cargo >= 4.1
-- [fpa](https://github.com/natir/fpa) avaible in bioconda or cargo >= 0.3
+- [yacrd](https://github.com/natir/yacrd) avaible in bioconda or cargo >= 0.6
+- [fpa](https://github.com/natir/fpa) avaible in bioconda or cargo >= 0.5
 - [minimap2](https://github.com/lh3/minimap2) avaible in bioconda
 
 Instruction:
 
 ```
-pip3 install git+https://github.com/natir/knot.git 
+GIT_LFS_SKIP_SMUDGE=1 pip3 install git+https://github.com/natir/knot.git 
 ```
 
 ## How to update an already-installed KNOT?
