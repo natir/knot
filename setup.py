@@ -10,13 +10,15 @@ try:
 except ImportError:
     from pip.req import parse_requirements
 
+import pkg_resources
 from itertools import tee
 
 pip_reqs = parse_requirements("requirements.txt", session=False)
-pipy_reqs = [str(ir.req) for ir in pip_reqs if ir.link is None]
+pipy_reqs = [str(requirement) for requirement in pkg_resources.parse_requirements("requirements.txt")]
+#pipy_reqs = [str(ir.req) for ir in pip_reqs if ir.link is None]
 
-git_reqs = parse_requirements("requirements.txt", session=False)
-links_reqs = [str(ir.link) for ir in git_reqs if ir.link is not None]
+#git_reqs = parse_requirements("requirements.txt", session=False)
+#links_reqs = [str(ir.link) for ir in git_reqs if ir.link is not None]
 
 setup(
     name = __name__,
