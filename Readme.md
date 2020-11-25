@@ -13,6 +13,7 @@ Give an assembly and a set of reads to KNOT, it will output an information-rich 
   * [Generate html report on knot result](generate-html-report-on-knot-result)
 - [Installation](#installation)
   * [Install with conda](#install-with-conda)
+  * [Install by create conda environement](#install-by-create-conda-environement)
   * [Install without conda](#install-without-conda)
 - [Update](#how-to-update-an-already-installed-knot)
   * [Conda installation](#conda-installation)
@@ -120,7 +121,14 @@ If `-p` is present, knot.analysis run a hamilton path search, see [manuscript](#
 
 ### Install with conda
 
-Recommended solution (2 command, 5 minutes)
+Recommended solution (1 command, 2 minutes)
+
+If [bioconda channel](https://bioconda.github.io/) is setup you have just to run this command:
+```
+conda install knot
+```
+
+### Install by create conda environement
 
 ```
 wget https://raw.githubusercontent.com/natir/knot/v1.3/conda_env.yml
